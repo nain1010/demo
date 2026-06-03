@@ -5,7 +5,7 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 import httpx
 
-from litestar import Litestar, get, Request, Response, asgi
+from litestar import Litestar, get, Request, Response
 from litestar.di import Provide
 from litestar.exceptions import HTTPException
 from litestar.status_codes import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_404_NOT_FOUND, HTTP_503_SERVICE_UNAVAILABLE
@@ -24,9 +24,6 @@ from src.shared_kernel.domain.exceptions import (
 )
 from src.idp.infrastructure.database import init_idp_db
 from src.scrum.infrastructure.database import init_scrum_db
-
-# Importar el servidor MCP
-from src.mcp_server import app as mcp_app
 
 # Configurar logs
 logging.basicConfig(level=logging.INFO)
@@ -111,14 +108,6 @@ async def health_check(
     return Response(content=status)
 
 
-# --- MCP SUB-APP MOUNT ---
-
-@asgi(path="/mcp", is_mount=True)
-async def mcp_sub_app(scope: Any, receive: Any, send: Any) -> None:
-    """Monta la aplicación del servidor MCP dentro del contexto de Litestar."""
-    await mcp_app(scope, receive, send)
-
-
 # --- LIFECYCLE HOOKS ---
 
 async def on_startup(app: Litestar) -> None:
@@ -141,7 +130,7 @@ async def on_startup(app: Litestar) -> None:
 # --- APPLICATION CONFIGURATION ---
 
 app = Litestar(
-    route_handlers=[health_check, mcp_sub_app],
+    route_handlers=[health_check],
     plugins=[IdpPlugin(), ScrumPlugin()],
     middleware=[AuthMiddleware],
     dependencies=dependencies,

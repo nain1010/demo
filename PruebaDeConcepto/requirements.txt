@@ -7,4 +7,3 @@ pytest-asyncio>=0.23.0
 python-dotenv>=1.0.0
 pydantic>=2.6.0
 greenlet>=3.0.0
-fastmcp>=0.4.1

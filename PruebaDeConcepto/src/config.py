@@ -17,12 +17,9 @@ class Config:
     SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
     SUPABASE_KEY: str = os.getenv("SUPABASE_KEY", "")
 
-    # Directorio raíz del proyecto
-    ROOT_DIR = Path(__file__).parent.parent.resolve()
-
     # Turso (SQLite en el Edge para Scrum y Auth local)
     # Por defecto usamos un archivo SQLite local asíncrono para pruebas/desarrollo local
-    TURSO_DATABASE_URL: str = os.getenv("TURSO_DATABASE_URL", f"sqlite+aiosqlite:///{ROOT_DIR.as_posix()}/scrum.db")
+    TURSO_DATABASE_URL: str = os.getenv("TURSO_DATABASE_URL", "sqlite+aiosqlite:///scrum.db")
     TURSO_AUTH_TOKEN: str = os.getenv("TURSO_AUTH_TOKEN", "")
 
     # Para el IdP si se selecciona Turso, podemos usar la misma base de datos o una separada.
@@ -32,7 +29,7 @@ class Config:
     # Para desarrollo local, usaremos archivos SQLite diferentes para simular bases de datos físicamente distintas!
     # Scrum -> scrum.db
     # IdP -> idp.db
-    IDP_DATABASE_URL: str = os.getenv("IDP_DATABASE_URL", f"sqlite+aiosqlite:///{ROOT_DIR.as_posix()}/idp.db")
+    IDP_DATABASE_URL: str = os.getenv("IDP_DATABASE_URL", "sqlite+aiosqlite:///idp.db")
 
     @classmethod
     def validate(cls):

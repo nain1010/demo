@@ -1,0 +1,19 @@
+# Entorno virtual y Python
+.venv/
+__pycache__/
+*.pyc
+
+# Variables de entorno y llaves secretas
+.env
+
+# Bases de datos locales SQLite
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Caché y herramientas de desarrollo
+.pytest_cache/
+.vscode/
+.idea/
+*.log
